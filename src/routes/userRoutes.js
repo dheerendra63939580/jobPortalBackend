@@ -4,8 +4,8 @@ import { validateCommonSignup } from "../middleware/validateCommonSignup.js";
 import { createAdmin, deleteAdmin, getAdminListing, getSuperAdminMetrics, updateAdminStatus } from "../controller/user/index.js";
 import { tokenValidater } from "../middleware/validateToken.js";
 import { catchHandler } from "../utils/catchHandler.js";
-import { validateEmployee } from "../middleware/validateEmployee.js";
 import { validateAdmin } from "../middleware/validateAdmin.js";
+import { validateRole } from "../middleware/validateRole.js";
 const router = express.Router();
 
 router.route("/admin")
@@ -26,7 +26,7 @@ router.route("/admin/:adminId")
 router.get(
     "/admin-metrics",
     catchHandler(tokenValidater), 
-    catchHandler(validateEmployee),
+    catchHandler(validateRole(["superAdmin", "admin", "reviewer"])),
     catchHandler(getSuperAdminMetrics)
 );
 router.get(
