@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { jobCategory, jobType } from "../constants/enums";
+import { jobCategory, jobType } from "../constants/enums.js";
 
 const jobSchema = new mongoose.Schema({
     jobTitle: {
@@ -35,14 +35,18 @@ const jobSchema = new mongoose.Schema({
         type: Number
     },
     skills: {
-        type: [String]
+        type: String
     },
     description: {
         type: String
     },
     deadline: {
         type: Date
+    },
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: "User"
     }
-})
+}, {timestamps: true})
 
-export const Job = mongoose.model("Job", jobSchema)
+export const Job = mongoose.model("Job", jobSchema);
