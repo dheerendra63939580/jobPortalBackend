@@ -3,11 +3,24 @@ import { SuccessResponse } from "../../utils/successResponse.js";
 
 export const createJob = async (req, res, next) => {
     const {userId} = req;
-    const job = await Job.insertOne({...req?.validatedData, createBy: userId});
+    const job = await Job.insertOne({...req?.validatedData, createdBy: userId})
     res.status(201).json(new SuccessResponse("Job created successfully", job));
 }
 
 export const getJobListing = async (req, res, next) => {
-    const jobs = await Job.find({});
+    const jobs = await Job.find(
+        {}, 
+        {
+            companyName: 1, 
+            createdAt: 1, 
+            experience: 1, 
+            jobTitle: 1, 
+            jobType: 1,
+            location: 1,
+            minSalary: 1,
+            maxSalary: 1,
+            createdBy: 1
+        }
+    );
     return res.status(200).json(new SuccessResponse("Jobs found successfully", jobs));
 }
