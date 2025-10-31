@@ -16,10 +16,9 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
 
 app.use((err, req, res, next) => {
-    const statusCode = err.status || 500;
-    const message = err?.message || "Internal server error";
-    const error = err?.data || err;
-    return res.status(statusCode).json({ message, error });
+    const statusCode = err.status
+    const message = err?.message
+    return res.status(statusCode).json({ message });
 });
 
 (() => {

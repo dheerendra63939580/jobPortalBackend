@@ -5,7 +5,8 @@ export const catchHandler = (busiFun) => {
         try {
             await busiFun(req, res, next);
         } catch (error) {
-            return next(new ErrorResponse("Internal server error", error, 500))
+            console.log(error)
+            return next(new ErrorResponse("Internal server error", 500))
         }
     }
 }

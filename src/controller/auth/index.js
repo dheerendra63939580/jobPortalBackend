@@ -10,10 +10,10 @@ export const login = async (req, res, next) => {
     const {email, password} = req.body;
     const user = await User.findOne({email});
     if(!user)
-        return next(new ErrorResponse("Invalid credentials.", [], 400));
+        return next(new ErrorResponse("Invalid credentials.", 400));
     const isMatched = await bcrypt.compare(password, user.password);
     if(!isMatched)
-        return next(new ErrorResponse("Invalid credentials.", [], 400));
+        return next(new ErrorResponse("Invalid credentials.", 400));
     if(user.status === "inactive") {
         return next(new ErrorResponse("Your account has been deactivated.", 400));
     }
@@ -41,6 +41,6 @@ export const getProfile = async (req, res, next) => {
     ])
     
     if(!user?.length)
-        return next(new ErrorResponse("User not found", [], 400));
+        return next(new ErrorResponse("User not found", 400));
     return res.status(200).json(new SuccessResponse("Profile found successfully", user?.[0]));
 }

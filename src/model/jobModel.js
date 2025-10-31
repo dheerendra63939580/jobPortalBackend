@@ -16,7 +16,7 @@ const jobSchema = new mongoose.Schema({
         type: String,
         enum: jobCategory
     },
-    vacency: {
+    vacancy: {
         type: Number
     },
     minSalary: {

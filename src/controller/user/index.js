@@ -10,7 +10,7 @@ export const createAdmin = async (req, res, next) => {
     const {deletePermission} = req.body;
     const currentUser = await User.findOne({email: req.validatedData.email});
     if(!!currentUser)
-        return next(new ErrorResponse("User with this email already exists", [], 400));
+        return next(new ErrorResponse("User with this email already exists", 400));
     const hashedPassword = await bcrypt.hash(password,parseInt(process.env.SALT));
     const role = "admin";
     console.log(req.validatedData)
@@ -53,10 +53,10 @@ export const getAdminListing = async (req, res, next) => {
 export const updateAdminStatus = async (req, res, next) => {
     const {status, adminId} = req.body;
     if(!userStatus.includes(status))
-        return next(new ErrorResponse("Invalid status value", [], 400));
+        return next(new ErrorResponse("Invalid status value", 400));
     const admin = await User.findById(adminId);
     if(!admin || admin?.role !== "admin")
-        return next(new ErrorResponse("Invalid admin id", [], 400))
+        return next(new ErrorResponse("Invalid admin id", 400))
     admin.status = status;
     await admin.save();
     res.status(200).json(new SuccessResponse("Admin status updated successfully", {}))
@@ -67,6 +67,6 @@ export const deleteAdmin = async (req, res, next) => {
     const {adminId} = req.params;
     const user = await User.findByIdAndDelete(adminId);
     if(!user || user.role !== "admin")
-        next(new ErrorResponse("Invalid admin id", [], 400))
+        next(new ErrorResponse("Invalid admin id", 400))
     res.status(200).json(new SuccessResponse("Account deleted successfully", {}))
 }
